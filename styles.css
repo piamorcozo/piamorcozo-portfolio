@@ -124,16 +124,16 @@ ol {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 30;
-  width: 220px;
-  height: 220px;
-  margin: -110px 0 0 -110px;
+  z-index: 70;
+  width: 320px;
+  height: 320px;
+  margin: -160px 0 0 -160px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
     rgba(94, 234, 212, 0.16) 0%,
-    rgba(94, 234, 212, 0.06) 35%,
-    transparent 68%
+    rgba(94, 234, 212, 0.06) 40%,
+    transparent 65%
   );
   opacity: 0;
   mix-blend-mode: screen;
@@ -185,6 +185,10 @@ body.is-pointer .cursor-glow {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .intro-top {
+    flex-shrink: 0;
   }
 }
 
@@ -300,10 +304,127 @@ body.is-pointer .cursor-glow {
   opacity: 1;
 }
 
+/* Scrolling screenshot wall — Sariwa columns, image tiles, this palette */
+.shot-wall {
+  position: relative;
+  height: 240px;
+  margin-top: 2rem;
+}
+
+@media (min-width: 960px) {
+  .shot-wall {
+    flex: 1 1 0;
+    height: auto;
+    min-height: 0;
+    margin: 1.75rem 0 1.35rem;
+  }
+}
+
+.shot-columns {
+  display: flex;
+  gap: 0.5rem;
+  height: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 14%,
+    #000 86%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 14%,
+    #000 86%,
+    transparent
+  );
+}
+
+@media (min-width: 960px) {
+  .shot-columns {
+    position: absolute;
+    inset: 0;
+    height: auto;
+  }
+}
+
+.shot-col {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.shot-track {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  animation: shot-scroll var(--duration, 22s) linear infinite;
+}
+
+.shot-wall:hover .shot-track,
+.shot-wall:focus-within .shot-track {
+  animation-play-state: paused;
+}
+
+.shot {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg-elevated);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+  transition: border-color 0.3s ease, transform 0.45s var(--ease);
+}
+
+.shot.is-wide {
+  aspect-ratio: 16 / 10;
+}
+
+.shot.is-tall {
+  aspect-ratio: 9 / 18;
+}
+
+.shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  filter: saturate(0.92) contrast(1.04);
+  transition: filter 0.4s ease, transform 0.6s var(--ease);
+}
+
+.shot:hover {
+  border-color: rgba(94, 234, 212, 0.4);
+  transform: translateY(-2px);
+}
+
+.shot:hover img {
+  filter: saturate(1.06) contrast(1.08);
+  transform: scale(1.04);
+}
+
+@keyframes shot-scroll {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-50%);
+  }
+}
+
 .socials {
   display: flex;
   gap: 1rem;
   margin-top: 2.5rem;
+}
+
+@media (min-width: 960px) {
+  .socials {
+    margin-top: 0;
+    flex-shrink: 0;
+  }
 }
 
 .socials a {
@@ -784,5 +905,9 @@ body.is-pointer .cursor-glow {
 
   .cursor-glow {
     display: none;
+  }
+
+  .shot-track {
+    animation: none;
   }
 }
