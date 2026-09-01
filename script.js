@@ -39,6 +39,10 @@
     });
   };
 
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => setActiveNav(link.dataset.nav));
+  });
+
   if (sections.length && "IntersectionObserver" in window) {
     const spy = new IntersectionObserver(
       (entries) => {
@@ -55,6 +59,41 @@
     sections.forEach((section) => spy.observe(section));
   } else if (sections[0]) {
     setActiveNav(sections[0].dataset.section);
+  }
+
+  /* Mobile TOC: pin numbers to the top after leaving the intro */
+  const nav = document.querySelector(".side-nav");
+  const navSlot = document.querySelector(".side-nav-slot");
+  const mobileNav = window.matchMedia("(max-width: 959px)");
+
+  const setPinnedNav = (pinned) => {
+    if (!nav || !navSlot) return;
+    const isPinned = nav.classList.contains("is-pinned");
+    if (pinned === isPinned) return;
+
+    if (pinned) {
+      navSlot.style.minHeight = `${nav.getBoundingClientRect().height}px`;
+      nav.classList.add("is-pinned");
+    } else {
+      nav.classList.remove("is-pinned");
+      navSlot.style.minHeight = "";
+    }
+  };
+
+  const updatePinnedNav = () => {
+    if (!nav || !navSlot) return;
+    if (!mobileNav.matches) {
+      setPinnedNav(false);
+      return;
+    }
+    setPinnedNav(navSlot.getBoundingClientRect().top <= 0);
+  };
+
+  if (nav && navSlot) {
+    window.addEventListener("scroll", updatePinnedNav, { passive: true });
+    window.addEventListener("resize", updatePinnedNav);
+    mobileNav.addEventListener("change", updatePinnedNav);
+    updatePinnedNav();
   }
 
   /* Orbit experience timeline */

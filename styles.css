@@ -236,13 +236,104 @@ body.is-pointer .cursor-glow {
   font-size: 1rem;
 }
 
-.side-nav {
+.side-nav-slot {
   margin-top: 2.5rem;
 }
 
 .side-nav ol {
   display: grid;
   gap: 0.85rem;
+}
+
+@media (max-width: 959px) {
+  .intro {
+    padding-top: 3rem;
+  }
+
+  .name {
+    font-size: clamp(2.15rem, 11vw, 2.8rem);
+  }
+
+  .blurb {
+    max-width: 38ch;
+  }
+
+  .shell {
+    width: min(100% - 2rem, var(--max));
+  }
+
+  .section {
+    scroll-margin-top: 4.75rem;
+  }
+
+  .side-nav.is-pinned {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    margin: 0;
+    padding: calc(0.55rem + env(safe-area-inset-top, 0px)) 1.15rem 0.7rem;
+    background: rgba(11, 18, 32, 0.86);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+    animation: nav-pin-in 0.35s var(--ease);
+  }
+
+  .side-nav.is-pinned ol {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .side-nav.is-pinned li {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .side-nav.is-pinned a {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.12rem;
+    align-items: center;
+    text-align: center;
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+  }
+
+  .side-nav.is-pinned .nav-index {
+    font-size: 0.8rem;
+  }
+
+  .side-nav.is-pinned .nav-slash {
+    display: none;
+  }
+
+  .side-nav.is-pinned .nav-label {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .side-nav.is-pinned .nav-label::after {
+    bottom: -0.12rem;
+  }
+}
+
+@keyframes nav-pin-in {
+  from {
+    transform: translateY(-110%);
+    opacity: 0.35;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .side-nav a {
